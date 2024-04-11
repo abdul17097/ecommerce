@@ -6,12 +6,15 @@ import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../utils/SummaryApi";
 import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../store/userSlice";
 const Login = () => {
   const [eye, setEye] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
@@ -31,9 +34,14 @@ const Login = () => {
       body: JSON.stringify(data),
     });
     const apiData = await response.json();
+    console.log(apiData);
     if (apiData.success) {
       toast.success(apiData.message);
+      dispatch(setUserDetails(apiData.userDetails));
+      console.log(apiData.userDetails);
       navigate("/");
+    } else {
+      toast.error(apiData.message);
     }
   };
   return (

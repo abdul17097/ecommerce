@@ -24,11 +24,12 @@ const userSigninController = async (req, res) => {
             expiresIn: 3600,
           }
         );
+
         res.cookie("access_token", token, { httpOnly: true }).status(200).json({
           error: false,
           message: "Login successful",
           success: true,
-          token: token,
+          userDetails: checkUser,
         });
       } else {
         throw new Error("Invalid password");
