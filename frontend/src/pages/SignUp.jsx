@@ -3,7 +3,9 @@ import signin from "../assest/signin.gif";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
 import Button from "../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import SummaryApi from "../utils/SummaryApi";
+import { toast } from "react-toastify";
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -15,15 +17,38 @@ const SignUp = () => {
     confirmPassword: "",
     ProfilePic: "",
   });
-
+  const navigate = useNavigate();
   const picRef = useRef();
   const handleChange = (e) => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+    const { name, email, password, confirmPassword } = data;
+    if (!name || !email || !password || !confirmPassword) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+    if (password !== confirmPassword) {
+      toast.error("Password should be Same");
+      return;
+    }
+    const response = await fetch(SummaryApi.signup.url, {
+      method: SummaryApi.signup.method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const result = await response.json();
+    console.log(result);
+    if (result.success) {
+      toast.success(result.message);
+      navigate("/login");
+    } else {
+      toast.error(result.message);
+    }
   };
   return (
     <div className="w-full flex justify-center mt-10">

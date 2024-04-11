@@ -3,20 +3,38 @@ import signin from "../assest/signin.gif";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
 import Button from "../components/Button";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import SummaryApi from "../utils/SummaryApi";
+import { toast } from "react-toastify";
 const Login = () => {
   const [eye, setEye] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-
+  const navigate = useNavigate();
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(data);
+    const { email, password } = data;
+    if (!email || !password) {
+      toast.error("Please fill all the fields");
+      return;
+    }
+    const response = await fetch(SummaryApi.signin.url, {
+      method: SummaryApi.signin.method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+    });
+    const apiData = await response.json();
+    if (apiData.success) {
+      toast.success(apiData.message);
+      navigate("/");
+    }
   };
   return (
     <div className="w-full flex justify-center mt-10">
@@ -25,7 +43,7 @@ const Login = () => {
         className="flex flex-col w-full max-w-sm p-5 mx-2 gap-3 bg-white rounded-lg border shadow-lg"
       >
         <div className="m-auto">
-          <img src={signin} alt="" className="rounded-full w-16 h-16" />
+          <img src={signin} alt="" className="rounded-full w-20 h-20" />
         </div>
         <div className="flex flex-col gap-1">
           <label htmlFor="">Email:</label>
