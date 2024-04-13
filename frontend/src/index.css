@@ -7,3 +7,15 @@ body {
     @apply bg-slate-100;
     user-select: none;
 }
+
+.userTable{
+    @apply bg-white rounded-md
+}
+
+.userTable th{
+    @apply px-4 py-4  border-b-2 border-gray-300 text-left text-sm font-medium text-gray-700 capitalize tracking-wider
+}
+
+.userTable td{
+    @apply px-4 py-3 border-b border-gray-200 text-sm  text-gray-900
+}

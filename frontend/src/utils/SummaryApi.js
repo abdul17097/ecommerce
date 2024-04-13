@@ -8,8 +8,16 @@ const SummaryApi = {
     url: `/api/signin`,
     method: "POST",
   },
+  logout: {
+    url: `/api/logout`,
+    method: "GET",
+  },
   userDetails: {
     url: `/api/user-details`,
+    method: "GET",
+  },
+  allUsers: {
+    url: `/api/all-users`,
     method: "GET",
   },
 };

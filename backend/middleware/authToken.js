@@ -19,7 +19,7 @@ const authToken = (req, res, next) => {
           success: false,
         });
       }
-      req.user = user._id;
+      req.user = user.id;
       next();
     });
   } catch (error) {

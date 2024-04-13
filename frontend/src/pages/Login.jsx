@@ -34,11 +34,9 @@ const Login = () => {
       body: JSON.stringify(data),
     });
     const apiData = await response.json();
-    console.log(apiData);
     if (apiData.success) {
       toast.success(apiData.message);
       dispatch(setUserDetails(apiData.userDetails));
-      console.log(apiData.userDetails);
       navigate("/");
     } else {
       toast.error(apiData.message);

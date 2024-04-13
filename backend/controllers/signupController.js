@@ -19,6 +19,7 @@ const userSignupController = async (req, res) => {
       name,
       email,
       password: hashPassword,
+      role: "GENERAL",
     });
     res.status(201).json({
       data: newUser,

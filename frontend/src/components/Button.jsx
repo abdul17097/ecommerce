@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const Button = ({ text, color, link, p }) => {
+const Button = ({ text, color, link }) => {
   return link ? (
     <Link
       to="/login"
