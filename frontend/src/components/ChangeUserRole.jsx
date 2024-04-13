@@ -5,7 +5,7 @@ const ChangeUserRole = () => {
   const [role, setRole] = useState(null);
   const updateUserRole = async () => {};
   return (
-    <div className="absolute backdrop-blur-sm  top-0 w-full h-full flex justify-center items-center">
+    <div className="absolute backdrop-blur-sm  top-0 w-full h-full hidden justify-center items-center">
       <div className="p-4 flex flex-col gap-1 w-full max-w-sm bg-white rounded-lg shadow-lg">
         <div className="ml-auto">
           <button className="text-2xl border p-1 rounded-lg hover:scale-105 shadow">
