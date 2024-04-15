@@ -5,6 +5,8 @@ import moment from "moment";
 import ChangeUserRole from "../components/ChangeUserRole";
 const AllUsers = () => {
   const [users, setUsers] = useState();
+  const [userData, setUserData] = useState({ id: "", name: "", email: "" });
+  const [dialog, setDialog] = useState(false);
   const fetchUsers = async () => {
     const response = await fetch(SummaryApi.allUsers.url, {
       method: SummaryApi.allUsers.method,
@@ -18,7 +20,6 @@ const AllUsers = () => {
   useEffect(() => {
     fetchUsers();
   }, []);
-  console.log(users);
   return (
     <div className="w-full border relative h-full min-h-[80vh]">
       <table className="w-full userTable">
@@ -36,16 +37,32 @@ const AllUsers = () => {
               <td>{index + 1}</td>
               <td>{user.name}</td>
               <td>{user.email}</td>
-              <td>{user.role}</td>
+              <td className="uppercase">{user.role}</td>
               <td>{moment(user.updatedAt).format("l ")}</td>
               <td className="">
-                <CiEdit className="text-4xl rounded-full p-1 cursor-pointer transition-all duration-100 ease-in hover:bg-green-500 hover:text-white" />
+                <button
+                  className=""
+                  onClick={() => {
+                    setUserData({
+                      id: user._id,
+                      name: user.name,
+                      email: user.email,
+                    });
+                    setDialog(true);
+                  }}
+                >
+                  <CiEdit className="text-4xl rounded-full p-1 cursor-pointer transition-all duration-100 ease-in hover:bg-green-500 hover:text-white" />
+                </button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
-      <ChangeUserRole />
+      <ChangeUserRole
+        userData={userData}
+        dialog={dialog}
+        setDialog={setDialog}
+      />
     </div>
   );
 };

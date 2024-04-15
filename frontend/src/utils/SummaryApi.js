@@ -20,6 +20,10 @@ const SummaryApi = {
     url: `/api/all-users`,
     method: "GET",
   },
+  updateUser: {
+    url: `/api/update-user`,
+    method: "POST",
+  },
 };
 
 export default SummaryApi;

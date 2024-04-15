@@ -16,7 +16,7 @@ export const Header = ({ role }) => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const activeUrl = pathname.split("/").pop();
-  console.log(activeUrl);
+
   const handleevent = async () => {
     const response = await fetch(SummaryApi.logout.url, {
       method: SummaryApi.logout.method,
@@ -31,6 +31,7 @@ export const Header = ({ role }) => {
       navigate("/login");
     }
   };
+  console.log(user);
   return (
     <header
       className={`h-16 ${
@@ -72,15 +73,16 @@ export const Header = ({ role }) => {
             className="relative flex justify-center items-center"
             onClick={() => setMenuDisplay(!menuDisplay)}
           >
-            {user?.profilePic ? (
-              <img
-                src={user.profilePic}
-                alt=""
-                className="w-12 h-12 object-cover cursor-pointer"
-              />
-            ) : (
-              <FaRegCircleUser className="text-3xl cursor-pointer" />
-            )}
+            {user &&
+              (user?.profilePic ? (
+                <img
+                  src={user.profilePic}
+                  alt=""
+                  className="w-12 h-12 object-cover cursor-pointer"
+                />
+              ) : (
+                <FaRegCircleUser className="text-3xl cursor-pointer" />
+              ))}
             {menuDisplay && (
               <div className="absolute top-12 hover:text-slate-500 bg-white p-2 rounded transition-all duration-200 ease-in">
                 <nav>
