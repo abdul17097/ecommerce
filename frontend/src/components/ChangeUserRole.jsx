@@ -22,7 +22,6 @@ const ChangeUserRole = ({ userData, dialog, setDialog }) => {
       toast.success(data.message);
     }
   };
-  console.log(userData);
   return (
     <div
       className={`absolute backdrop-blur-sm  top-0 w-full h-full ${

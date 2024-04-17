@@ -24,6 +24,18 @@ const SummaryApi = {
     url: `/api/update-user`,
     method: "POST",
   },
+  uploadProduct: {
+    url: `/api/upload-product`,
+    method: "POST",
+  },
+  allProducts: {
+    url: `/api/all-products`,
+    method: "GET",
+  },
+  updateProduct: {
+    url: `/api/update-product`,
+    method: "POST",
+  },
 };
 
 export default SummaryApi;

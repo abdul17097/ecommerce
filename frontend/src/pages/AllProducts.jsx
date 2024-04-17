@@ -1,52 +1,41 @@
-import moment from "moment";
-import React, { useState } from "react";
-import { CiEdit } from "react-icons/ci";
-import { IoMdClose } from "react-icons/io";
-import Button from "../components/Button";
+import React, { useEffect, useState } from "react";
 import { UploadProduct } from "../components/UploadProduct";
+import SummaryApi from "../utils/SummaryApi";
+import AdminProductCard from "../components/AdminProductCard";
+import { fetchProduct } from "../store/productSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 const AllProducts = () => {
   const [productDialog, setProductDialog] = useState(false);
-  console.log(true);
+  // const [products, setAllProducts] = useState([]);
+  const { products } = useSelector((state) => state.product);
+  console.log(products);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchProduct());
+  }, [dispatch]);
   return (
-    <div className="w-full border flex flex-col relative h-full min-h-[80vh] ">
-      <div className="ml-auto p-3">
+    <div className="w-full flex flex-col relative h-full min-h-[80vh] ">
+      <div className="ml-auto p-3 bg-white w-full mb-3">
         <button
           onClick={() => setProductDialog(true)}
-          className="bg-red-500 px-10 text-lg hover:scale-105 transition-all duration-100 py-2 flex items-center rounded-full text-white hover:bg-red-600 focus:outline-none"
+          className="px-10 text-lg hover:bg-red-500 ml-auto hover:text-white  transition-all duration-100 py-2 flex items-center rounded-full border-2 border-red-500 focus:outline-none text-red-500 font-semibold"
         >
           Upload Product
         </button>
       </div>
-      <table className="w-full userTable">
-        <thead className="">
-          <th>Sr.</th>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Role</th>
-          <th>Created At</th>
-          <th>Action</th>
-        </thead>
-        <tbody>
-          <tr>
-            <td>111</td>
-            <td>111</td>
-            <td>111</td>
-            <td>111</td>
-
-            <td>{moment().format("l ")}</td>
-            <td className="">
-              <button className="">
-                <CiEdit className="text-4xl rounded-full p-1 cursor-pointer transition-all duration-100 ease-in hover:bg-green-500 hover:text-white" />
-              </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <UploadProduct
-        onClose={() => setProductDialog(false)}
-        productDialog={productDialog}
-      />
+      <div className="flex justify-between flex-wrap gap-y-4 overflow-y-scroll h-[72vh]">
+        {products?.map((product, index) => (
+          <AdminProductCard
+            product={product}
+            key={index}
+            productDialog={productDialog}
+          />
+        ))}
+      </div>
+      {productDialog && (
+        <UploadProduct onClose={() => setProductDialog(false)} />
+      )}
     </div>
   );
 };

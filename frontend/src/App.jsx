@@ -15,22 +15,6 @@ import AllProducts from "./pages/AllProducts";
 import AllUsers from "./pages/AllUsers";
 
 const App = () => {
-  const dispatch = useDispatch();
-  const fetchData = async () => {
-    const response = await fetch(SummaryApi.userDetails.url, {
-      method: SummaryApi.userDetails.method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await response.json();
-    if (data.success) {
-      dispatch(setUserDetails(data.user));
-    }
-  };
-  useEffect(() => {
-    fetchData();
-  }, []);
   return (
     <>
       <Routes>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import signin from "../assest/signin.gif";
 import { MdOutlineRemoveRedEye } from "react-icons/md";
 import { FaEyeSlash } from "react-icons/fa";
@@ -6,8 +6,10 @@ import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../utils/SummaryApi";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUserDetails } from "../store/userSlice";
+import { loginUser } from "../store/userSlice";
+
 const Login = () => {
   const [eye, setEye] = useState(false);
   const [data, setData] = useState({
@@ -15,10 +17,16 @@ const Login = () => {
     password: "",
   });
   const dispatch = useDispatch();
+  const { success, loading, user } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const handleChange = (e) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
+  useEffect(() => {
+    if (user) {
+      navigate("/");
+    }
+  }, [user]);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const { email, password } = data;
@@ -26,21 +34,7 @@ const Login = () => {
       toast.error("Please fill all the fields");
       return;
     }
-    const response = await fetch(SummaryApi.signin.url, {
-      method: SummaryApi.signin.method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-    const apiData = await response.json();
-    if (apiData.success) {
-      toast.success(apiData.message);
-      dispatch(setUserDetails(apiData.userDetails));
-      navigate("/");
-    } else {
-      toast.error(apiData.message);
-    }
+    dispatch(loginUser(data));
   };
   return (
     <div className="w-full flex justify-center mt-10">
@@ -95,7 +89,7 @@ const Login = () => {
           </Link>
         </div>
         <div className="m-auto my-4">
-          <Button text="Login" />
+          <Button text={loading ? "Login..." : "Login"} />
         </div>
         <p className="">
           Don't have account?{" "}

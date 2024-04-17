@@ -1,37 +1,38 @@
-import React, { useState } from "react";
-import Logo from "./Logo";
+import React, { useEffect, useState } from "react";
 import { GrSearch } from "react-icons/gr";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { BsCartFill } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
-import SummaryApi from "../utils/SummaryApi";
 import { toast } from "react-toastify";
-import { setUserDetails, setUserLogout } from "../store/userSlice";
+import { logoutUser, setUserDetails, setUserLogout } from "../store/userSlice";
 export const Header = ({ role }) => {
-  const { user } = useSelector((state) => state.user);
   const [menuDisplay, setMenuDisplay] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const activeUrl = pathname.split("/").pop();
-
-  const handleevent = async () => {
-    const response = await fetch(SummaryApi.logout.url, {
-      method: SummaryApi.logout.method,
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const result = await response.json();
-    if (result.success) {
-      toast.success(result.message);
-      dispatch(setUserLogout(null));
+  const { loading, success, message, user } = useSelector(
+    (state) => state.user
+  );
+  useEffect(() => {
+    console.log(user === null);
+    if (user === null) {
       navigate("/login");
     }
+  }, [user]);
+  const handleLogout = async () => {
+    console.log("logout");
+    dispatch(logoutUser());
+    // const response = await fetch(SummaryApi.logout.url, {
+    //   method: SummaryApi.logout.method,
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    // });
+    // const result = await response.json();
   };
-  console.log(user);
   return (
     <header
       className={`h-16 ${
@@ -105,7 +106,7 @@ export const Header = ({ role }) => {
             {user ? (
               <button
                 className="bg-red-500 px-4 py-1 flex items-center rounded-full text-white hover:bg-red-600 focus:outline-none"
-                onClick={handleevent}
+                onClick={handleLogout}
               >
                 Logout
               </button>

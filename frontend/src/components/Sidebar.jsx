@@ -1,11 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import Logo from "./Logo";
+import { Link, useNavigate } from "react-router-dom";
 const Sidebar = () => {
   const { user } = useSelector((state) => state.user);
-  console.log(user);
-  const { name, email, profilePic, role } = user;
   return (
     <div className="w-full flex flex-col bg-white h-[100vh] max-w-60 pt-4">
       <div className="flex flex-col items-center  w-full">
@@ -19,13 +16,13 @@ const Sidebar = () => {
           </div>
 
           <img
-            src={profilePic}
+            src={user?.profilePic}
             alt=""
             className="w-14 h-14 rounded-full border-2 mb-3"
           />
         </div>
-        <span className="font-bold text-sm text-slate-500">{name}</span>
-        <span className="text-xs text-slate-600">{role}</span>
+        <span className="font-bold text-sm text-slate-500">{user?.name}</span>
+        <span className="text-xs text-slate-600">{user?.role}</span>
       </div>
       <ul className="pl-5 py-5 flex flex-col gap-3">
         <li>

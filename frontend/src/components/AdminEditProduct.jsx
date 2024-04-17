@@ -1,56 +1,38 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import productCategory from "../utils/productCategory";
+import { FaCloudUploadAlt } from "react-icons/fa";
 import uploadImage from "../utils/uploadImage";
 import { IoCloseCircleOutline } from "react-icons/io5";
 import DisplayProduct from "./DisplayProduct";
 import { toast } from "react-toastify";
-import animatedUploader from "../assest/animatedUploader.gif";
-import staticUploader from "../assest/staticUploader.png";
-import { useDispatch, useSelector } from "react-redux";
-import { uploadProduct } from "../store/productSlice";
-export const UploadProduct = ({ onClose, productDialog }) => {
+import SummaryApi from "../utils/SummaryApi";
+const AdminEditProduct = ({ product, onClose }) => {
+  console.log(product);
+
   const [data, setData] = useState({
-    productName: "",
-    brandName: "",
-    category: "",
-    productImages: [],
-    description: "",
-    price: "",
-    sellingPrice: "",
+    ...product,
+    productName: product?.productName,
+    brandName: product?.brandName,
+    category: product?.category,
+    productImages: product?.productImages || [],
+    description: product?.description,
+    price: product?.price,
+    sellingPrice: product?.sellingPrice,
   });
   const [displayFullScreenImage, setDisplayFullScreenImage] = useState(false);
   const [fullScreenImage, setFullScreenImage] = useState();
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  const { success } = useSelector((state) => state.product);
-
   const handleChange = (event) => {
     setData({ ...data, [event.target.name]: event.target.value });
   };
   const handleImageUpload = async (event) => {
-    setLoading(true);
-
-    const files = event.target.files;
-    const uploadPromises = [];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      console.log(file.name);
-      const uploadImageCloudinary = await uploadImage(file);
-      uploadPromises.push(uploadImageCloudinary);
-    }
-
-    const uploadedImages = await Promise.all(uploadPromises);
-
+    console.log(event.target.files[0].name);
+    const uploadImageCloudinary = await uploadImage(event.target.files[0]);
     setData({
       ...data,
-      productImages: [...data.productImages, ...uploadedImages],
+      productImages: [...data.productImages, uploadImageCloudinary],
     });
-
-    setLoading(false);
   };
-
   const handleDelete = (event, index) => {
     event.stopPropagation();
     const newProductImages = [...data.productImages];
@@ -84,18 +66,28 @@ export const UploadProduct = ({ onClose, productDialog }) => {
       toast.error("Please fill all the fields");
       return;
     }
-
-    dispatch(uploadProduct(data));
-    if (success) {
+    const response = await fetch(SummaryApi.updateProduct.url, {
+      method: SummaryApi.updateProduct.method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      credentials: "include",
+    });
+    const res = await response.json();
+    if (res.success) {
+      toast.success(res.message);
       onClose();
+    } else {
+      toast.error(res.message);
     }
   };
   return (
     <div className="fixed w-full h-[100vh] flex items-center  justify-center top-0 left-0 right-0 bottom-0">
-      <div className="w-full max-w-[35%] h-[80%] bg-white p-4 flex">
+      <div className="w-full max-w-[35%] h-[80%] bg-white p-4 flex z-[999]">
         <div className="bg-white w-full flex flex-col">
           <div className="flex w-full pl-4 mb-4">
-            <h1 className="font-bold text-lg">Upload Product</h1>
+            <h1 className="font-bold text-lg">Edit Product</h1>
             <div className="ml-auto">
               <button
                 onClick={() => {
@@ -156,20 +148,15 @@ export const UploadProduct = ({ onClose, productDialog }) => {
             <div className="flex flex-col gap-2">
               <label htmlFor="">Product Image:</label>
               <label htmlFor="uploadImage">
-                <div className="border-4 border-slate-100 py-2 text-slate-700 cursor-pointer px-2 rounded flex flex-col justify-center items-center focus:outline-none h-48">
+                <div className="bg-slate-100 py-2 text-slate-700 cursor-pointer px-2 rounded flex flex-col justify-center items-center focus:outline-none h-48">
                   <span className="">
-                    {loading ? (
-                      <img src={animatedUploader} className="" />
-                    ) : (
-                      <img src={staticUploader} className="" />
-                    )}
+                    <FaCloudUploadAlt className="text-3xl" />
                   </span>
-                  <p className="text-sm">Upload Image</p>
+                  <p className="">Upload Image</p>
                   <input
                     type="file"
                     className="hidden"
                     id="uploadImage"
-                    multiple
                     onChange={handleImageUpload}
                   />
                 </div>
@@ -238,7 +225,7 @@ export const UploadProduct = ({ onClose, productDialog }) => {
               ></textarea>
             </div>
             <button className="bg-red-500 px-12 hover:scale-105 transition-all  duration-100 py-2 flex items-center rounded-lg justify-center text-white hover:bg-red-600 focus:outline-none">
-              Upload Product
+              Update Product
             </button>
           </form>
           {displayFullScreenImage && (
@@ -252,3 +239,5 @@ export const UploadProduct = ({ onClose, productDialog }) => {
     </div>
   );
 };
+
+export default AdminEditProduct;

@@ -58,7 +58,7 @@ const authController = {
             },
             process.env.JWT_SECRET,
             {
-              expiresIn: 3600,
+              expiresIn: 36000,
             }
           );
 
@@ -72,7 +72,7 @@ const authController = {
               userDetails: checkUser,
             });
         } else {
-          throw new Error("Invalid password");
+          throw new Error("Invalid Credentials");
         }
       } else {
         throw new Error("User not found");
