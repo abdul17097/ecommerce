@@ -5,42 +5,31 @@ import { BsCartFill } from "react-icons/bs";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Button from "./Button";
 import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { logoutUser, setUserDetails, setUserLogout } from "../store/userSlice";
+import { logoutUser } from "../store/userSlice";
 export const Header = ({ role }) => {
   const [menuDisplay, setMenuDisplay] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const activeUrl = pathname.split("/").pop();
-  const { loading, success, message, user } = useSelector(
-    (state) => state.user
-  );
+  const { user } = useSelector((state) => state.user);
+  const { cartItems } = useSelector((state) => state.cart);
   useEffect(() => {
-    console.log(user === null);
     if (user === null) {
-      navigate("/login");
+      navigate("/");
     }
   }, [user]);
   const handleLogout = async () => {
-    console.log("logout");
     dispatch(logoutUser());
-    // const response = await fetch(SummaryApi.logout.url, {
-    //   method: SummaryApi.logout.method,
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    // });
-    // const result = await response.json();
   };
   return (
     <header
       className={`h-16 ${
-        role === "admin" ? "transparent" : "bg-white w-full shadow-md"
+        role === "admin" ? "transparent" : "bg-white w-full  shadow-md"
       }`}
     >
       <div
-        className={`h-full w-full  flex justify-between items-center px-4 ${
+        className={`h-full w-full  flex justify-between container mx-auto items-center md:px-0 px-4 ${
           role === "admin" ? "px-7" : "md:px-10"
         }`}
       >
@@ -50,13 +39,12 @@ export const Header = ({ role }) => {
               {activeUrl}
             </span>
           ) : (
-            // <Logo w={100} h={60} />
-            <div className="flex items-center gap-1">
+            <Link to={"/"} className="flex items-center gap-1">
               <span className="text-white font-bold text-xs border-2 bg-red-500 border-red-500 rounded-full p-1">
                 {"{S}"}
               </span>
               <span className="font-bold text-xl font-mono"> Shopify </span>
-            </div>
+            </Link>
           )}
         </div>
         <div className="hidden lg:flex items-center justify-between w-full hover:shadow  max-w-sm pl-3 border rounded-full">
@@ -94,13 +82,13 @@ export const Header = ({ role }) => {
               </div>
             )}
           </div>
-          {role !== "admin" && (
-            <div className="relative">
+          {user && (
+            <Link to={"/cart"} className="relative">
               <BsCartFill className="text-2xl" />
               <div className="absolute top-[-10px] right-[-8px] bg-red-500 rounded-full text-white w-5 h-5 flex justify-center items-center">
-                <p className="text-xs">0</p>
+                <p className="text-xs">{cartItems?.length}</p>
               </div>
-            </div>
+            </Link>
           )}
           <div className="">
             {user ? (

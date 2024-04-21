@@ -54,6 +54,67 @@ const productController = {
       });
     }
   },
+  categoryList: async (req, res) => {
+    try {
+      const productCategory = await Product.distinct("category");
+      const categoryList = [];
+      for (let category of productCategory) {
+        const firstProduct = await Product.findOne({ category });
+        categoryList.push(firstProduct);
+      }
+      res.status(201).json({
+        message: "Category List",
+        error: false,
+        success: true,
+        categoryList,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: error.message,
+        error: true,
+        success: false,
+      });
+    }
+  },
+  categoryProduct: async (req, res) => {
+    try {
+      const { category } = req.body;
+      const product = await Product.find({ category });
+      res.status(201).json({
+        message: "Product category",
+        error: false,
+        success: true,
+        product,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: error.message,
+        error: true,
+        success: false,
+      });
+    }
+  },
+  getSingleProduct: async (req, res) => {
+    try {
+      const { productId } = req.body;
+      const singleProduct = await Product.findById(productId);
+      if (!singleProduct) {
+        throw new Error("Product not found");
+      }
+      res.status(200).json({
+        message: "Product found",
+        error: false,
+        success: true,
+        product: singleProduct,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: error.message,
+        error: true,
+        success: false,
+      });
+    }
+  },
 };
 
 module.exports = productController;

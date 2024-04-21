@@ -40,6 +40,7 @@ export const logoutUser = createAsyncThunk(
     console.log(result);
     if (result.success) {
       localStorage.removeItem("user");
+      localStorage.removeItem("cartItems");
       return result;
     } else {
       return rejectWithValue(result.message);

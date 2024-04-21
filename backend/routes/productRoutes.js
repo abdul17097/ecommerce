@@ -22,5 +22,8 @@ router.post(
   checkAdmin,
   productController.updateProduct
 );
+router.get("/category-list", productController.categoryList);
+router.post("/category-products", productController.categoryProduct);
+router.post("/sigle-product", productController.getSingleProduct);
 
 module.exports = router;

@@ -13,6 +13,9 @@ import ForgotPassword from "./pages/ForgotPassword";
 import SignUp from "./pages/SignUp";
 import AllProducts from "./pages/AllProducts";
 import AllUsers from "./pages/AllUsers";
+import CategoryProduct from "./pages/CategoryProduct";
+import ProductDetail from "./pages/ProductDetail";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return (
@@ -24,8 +27,13 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route
+            path="/category-product/:category"
+            element={<CategoryProduct />}
+          />
+          <Route path="/product-detail/:id" element={<ProductDetail />} />
+          <Route path="/cart" element={<Cart />} />
         </Route>
-
         {/* Admin side Routes */}
         <Route path="/admin-panel" element={<AdminLayout />}>
           <Route path="/admin-panel/users" element={<AllUsers />} />
