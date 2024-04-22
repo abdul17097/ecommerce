@@ -115,6 +115,38 @@ const productController = {
       });
     }
   },
+  searchProduct: async (req, res) => {
+    try {
+      const { search } = req.query;
+      console.log(search);
+      if (!search) {
+        throw new Error("Please enter a search term");
+      }
+      const regex = new RegExp(search, "i", "g");
+      const product = await Product.find({
+        $or: [
+          {
+            productName: regex,
+          },
+          {
+            category: regex,
+          },
+        ],
+      });
+      res.status(200).json({
+        message: "Product found",
+        error: false,
+        success: true,
+        product,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: error.message,
+        error: true,
+        success: false,
+      });
+    }
+  },
 };
 
 module.exports = productController;

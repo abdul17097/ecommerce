@@ -25,5 +25,6 @@ router.post(
 router.get("/category-list", productController.categoryList);
 router.post("/category-products", productController.categoryProduct);
 router.post("/sigle-product", productController.getSingleProduct);
+router.get("/search-product", productController.searchProduct);
 
 module.exports = router;

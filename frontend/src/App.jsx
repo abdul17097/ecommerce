@@ -16,6 +16,7 @@ import AllUsers from "./pages/AllUsers";
 import CategoryProduct from "./pages/CategoryProduct";
 import ProductDetail from "./pages/ProductDetail";
 import Cart from "./pages/Cart";
+import SearchProduct from "./pages/SearchProduct";
 
 const App = () => {
   return (
@@ -33,6 +34,7 @@ const App = () => {
           />
           <Route path="/product-detail/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/search" element={<SearchProduct />} />
         </Route>
         {/* Admin side Routes */}
         <Route path="/admin-panel" element={<AdminLayout />}>

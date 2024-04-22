@@ -41,7 +41,7 @@ const HorizontalCardProduct = ({ category, heading }) => {
     e.preventDefault();
     e.stopPropagation();
     const selectedCartItem = product?.filter((item) => item._id === id);
-    dispatch(addToCart(selectedCartItem));
+    dispatch(addToCart(selectedCartItem[0]));
   };
   return (
     <div className="container relative mx-auto py-6 px-4">

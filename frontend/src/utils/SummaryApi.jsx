@@ -48,6 +48,10 @@ const SummaryApi = {
     url: `/api/sigle-product`,
     method: "POST",
   },
+  searchProduct: {
+    url: `/api/search-product/`,
+    method: "GET",
+  },
 };
 
 export default SummaryApi;

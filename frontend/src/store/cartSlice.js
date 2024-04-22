@@ -30,14 +30,17 @@ const cartReducer = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const isProductExist = state.cartItems.some(
-        (item) => item._id === action.payload[0]._id
+        (item) => item._id === action.payload._id
       );
       if (isProductExist) {
         toast.error("Product already exists");
       } else {
-        const product = action.payload[0];
-
-        const addQuantity = { ...product, quantity: 1, totalPrice: 0 };
+        const product = action.payload;
+        const addQuantity = {
+          ...product,
+          quantity: 1,
+          totalPrice: product.sellingPrice,
+        };
         state.cartItems = [...state.cartItems, addQuantity];
         saveCartItemFromStorage(state.cartItems);
         state.totalPrice = calculateTotalPrice(state.cartItems);

@@ -27,7 +27,7 @@ const Cart = () => {
       ) : (
         <div className="grid lg:grid-cols-3 gap-10 ">
           <div className="col-span-2">
-            <div className="flex w-full  flex-col lg:grid lg:grid-cols-4 my-3 md:flex-row md:items-center ">
+            <div className="flex w-full flex-col lg:grid lg:grid-cols-4 my-3 md:flex-row md:items-center ">
               <Link
                 to={"/"}
                 className="text-xs lg:text-sm font-semibold border-2 lg:col-span-2 border-red-500 w-fit lg:py-1 py-2 h-fit rounded whitespace-nowrap text-red-500 hover:bg-red-500 hover:text-white transition-all lg:px-2 px-2 flex items-center gap-2"
@@ -35,7 +35,7 @@ const Cart = () => {
                 <FaArrowRight />
                 <span className="">Shopping</span>
               </Link>
-              <div className="w-full flex justify-between lg:col-span-2 lg:justify-between my-3">
+              <div className="w-full flex justify-between lg:items-center lg:col-span-2 lg:justify-between my-3">
                 <h1 className="text-lg lg:text-2xl font-semibold">
                   Shoping Cart
                 </h1>
@@ -54,7 +54,7 @@ const Cart = () => {
               })}
             </div>
           </div>
-          <div className="col-span-2 lg:col-span-1 h-fit border shadow-lg">
+          <div className="col-span-2 lg:col-span-1 h-fit border shadow-lg rounded">
             <div className="flex w-full bg-red-500 justify-center mb-10 ">
               <span className="px-4 py-2 lg:py-5 rounded lg:text-xl  text-white">
                 ORDER SUMMARY
@@ -76,8 +76,10 @@ const Cart = () => {
                   {displayCurrency(totalPrice)}
                 </span>
               </div>
-              <div className="bg-red-500 py-2 flex justify-center border-2 border-red-500 text-white  rounded my-5  hover:text-red-500  hover:bg-slate-100">
-                <button className="">CHECKOUT NOW</button>
+              <div className="border-red-500 py-2 flex justify-center border-2 bg-slate-100 hover:bg-red-500 rounded my-5  text-red-500 hover:text-white">
+                <button className="focus:outline-none font-semibold">
+                  CHECKOUT NOW
+                </button>
               </div>
             </div>
           </div>

@@ -28,22 +28,18 @@ const RecommendedProduct = ({ category, heading }) => {
 
     fectchCategoryProduct();
   }, []);
-  const nextBtn = () => {
-    scrollElement.current.scrollLeft += 300;
-  };
-  const previousBtn = () => {
-    scrollElement.current.scrollLeft -= 300;
-  };
 
   const handleAddToCard = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
     const selectedCartItem = product?.filter((item) => item._id === id);
-    dispatch(addToCartt(selectedCartItem));
+    dispatch(addToCart(selectedCartItem[0]));
   };
   return (
     <div className="container relative mx-auto py-6 px-4">
-      <h1 className="text-2xl font-semibold capitalize mb-5">{heading}</h1>
+      <h1 className="text-2xl font-semibold capitalize mb-5">
+        {heading && heading}
+      </h1>
       <div
         className="flex items-center md:grid md:grid-cols-4 flex-wrap  md:gap-5 gap-4   py-2 transition-all  scrollbar-none "
         ref={scrollElement}

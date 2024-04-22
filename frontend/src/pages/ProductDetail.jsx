@@ -10,6 +10,8 @@ import { BiSolidCategoryAlt } from "react-icons/bi";
 import HorizontalCardProduct from "../components/HorizontalCardProduct";
 import VerticalCardProduct from "../components/VerticalCardProduct";
 import RecommendedProduct from "../components/RecommendedProduct";
+import { addToCart } from "../store/cartSlice";
+import { useDispatch } from "react-redux";
 const ProductDetail = () => {
   const [product, setProduct] = useState({ category: "", productImages: [] });
   const [loading, setLoading] = useState(false);
@@ -20,6 +22,7 @@ const ProductDetail = () => {
   });
   const [showZoomImage, setShowZoomImage] = useState(false);
   const { id } = useParams();
+  const dispatch = useDispatch();
   const fetchData = async () => {
     setLoading(true);
     const response = await fetch(SummaryApi.getSingleProduct.url, {
@@ -40,7 +43,7 @@ const ProductDetail = () => {
   };
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [id]);
   const discount = eval(
     `(((${product?.price} - ${product?.sellingPrice}) / ${product?.price}) * 100)`
   );
@@ -58,7 +61,7 @@ const ProductDetail = () => {
     [zoomImageCoordinate]
   );
   const handleAddToCart = () => {
-    console.log(product);
+    dispatch(addToCart(product));
   };
   return (
     <div className="container relative mx-auto py-6 px-4 lg:px-12  ">

@@ -22,6 +22,16 @@ export const Header = ({ role }) => {
   const handleLogout = async () => {
     dispatch(logoutUser());
   };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchQuery = e.target.value;
+    if (searchQuery) {
+      navigate(`/search?search=${searchQuery}`);
+    } else {
+      navigate("/search");
+    }
+  };
   return (
     <header
       className={`h-16 ${
@@ -51,7 +61,8 @@ export const Header = ({ role }) => {
           <input
             type="text"
             placeholder="Search products here..."
-            className="w-full bg-transparent focus:outline-none  "
+            className="w-full bg-transparent focus:outline-none"
+            onChange={handleSearch}
           />
           <div className="text-lg min-w-[50px] cursor-pointer h-8 bg-red-500 text-white  flex justify-center items-center rounded-r-full">
             <GrSearch />
