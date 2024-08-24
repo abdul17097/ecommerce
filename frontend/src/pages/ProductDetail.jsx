@@ -1,21 +1,20 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SummaryApi from "../utils/SummaryApi";
-import { FaStar } from "react-icons/fa";
-import { FaStarHalf } from "react-icons/fa";
+
 import displayCurrency from "../utils/displayCurrency";
-import { MdDiscount } from "react-icons/md";
+import { MdDiscount, MdOutlineStar } from "react-icons/md";
 import { TbBrandBeats } from "react-icons/tb";
 import { BiSolidCategoryAlt } from "react-icons/bi";
-import HorizontalCardProduct from "../components/HorizontalCardProduct";
 import VerticalCardProduct from "../components/VerticalCardProduct";
-import RecommendedProduct from "../components/RecommendedProduct";
 import { addToCart } from "../store/cartSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const ProductDetail = () => {
   const [product, setProduct] = useState({ category: "", productImages: [] });
   const [loading, setLoading] = useState(false);
   const [activeImage, setActiveImage] = useState(product?.productImages[0]);
+  const { user } = useSelector((state) => state.user);
+  const navigate = useNavigate();
   const [zoomImageCoordinate, setZoomImageCoordinate] = useState({
     x: 0,
     y: 0,
@@ -43,10 +42,16 @@ const ProductDetail = () => {
   };
   useEffect(() => {
     fetchData();
+
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   }, [id]);
-  const discount = eval(
-    `(((${product?.price} - ${product?.sellingPrice}) / ${product?.price}) * 100)`
-  );
+
+  const price = product?.price || 0;
+  const sellingPrice = product?.sellingPrice || 0;
+  const discount = ((price - sellingPrice) / price) * 100;
   const handleZoomImage = useCallback(
     (e) => {
       const { left, width, top, height } = e.target.getBoundingClientRect();
@@ -61,12 +66,16 @@ const ProductDetail = () => {
     [zoomImageCoordinate]
   );
   const handleAddToCart = () => {
-    dispatch(addToCart(product));
+    if (user) {
+      dispatch(addToCart(product));
+    } else {
+      navigate("/login");
+    }
   };
   return (
-    <div className="container relative mx-auto py-6 px-4 lg:px-12  ">
-      <div className="flex flex-col lg:flex-row gap-20">
-        <div className="flex flex-col lg:flex-row gap-20">
+    <div className="relative py-6 md:py-20   scroll-smooth">
+      <div className="flex flex-col container mx-auto lg:flex-row gap-20">
+        <div className="flex flex-col lg:flex-row  gap-20">
           {loading ? (
             <div className="flex flex-col-reverse lg:flex-row gap-4">
               <div className="flex flex-row lg:flex-col  gap-3">
@@ -87,7 +96,7 @@ const ProductDetail = () => {
             <div className="flex flex-col-reverse lg:flex-row gap-4">
               <div className="flex flex-row lg:flex-col gap-3">
                 {product?.productImages.map((imageUrl, index) => (
-                  <div className="w-20 h-20 bg-slate-200">
+                  <div className="w-20 h-20 bg-slate-200" key={index}>
                     <img
                       src={imageUrl}
                       className="w-full h-full mix-blend-multiply object-scale-down cursor-pointer"
@@ -161,11 +170,9 @@ const ProductDetail = () => {
         ) : (
           <div className=" w-full max-w-[550px] py-4 flex flex-col gap-1">
             <div className="flex justify-between">
-              <div className="flex items-center bg-red-400 px-3 rounded-full gap-1 py-1 text-white">
+              <div className="flex items-center bg-[#d03dbd] px-3 rounded-full gap-1 py-1 text-white">
                 <MdDiscount />
-                <span className="text-sm ">
-                  {Math.floor(discount)} Discount
-                </span>
+                <span className="text-sm ">{Math.floor(discount)} OFF</span>
               </div>
               <div className="flex w-full max-w-[150px] items-end ">
                 <span className="line-through text-sm font-semibold   text-slate-500">
@@ -202,21 +209,21 @@ const ProductDetail = () => {
             </div>
             <div className="flex flex-col gap-2 my-2">
               <p className="font-bold">Rating</p>
-              <div className="flex gap-1">
-                <FaStar className="text-lg text-red-500" />
-                <FaStar className="text-lg text-red-500" />
-                <FaStar className="text-lg text-red-500" />
-                <FaStar className="text-lg text-red-500" />
-                <FaStarHalf className="text-lg text-red-500" />
+              <div className="flex py-1">
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
               </div>
             </div>
             <div className="flex gap-4 my-3">
-              <button className="border-2 hover:bg-red-500 hover:text-white transition-all border-red-500 text-red-500 min-w-[100px] w-full max-w-[120px] md:min-w-[150px] py-2 px-3 rounded md:max-w-[200px] font-semibold  focus:outline-none md:text-lg ">
+              <button className="border-2 hover:bg-[#AE1C9A] hover:text-white transition-all border-[#AE1C9A] text-[#AE1C9A] min-w-[100px] w-full max-w-[120px] md:min-w-[150px] py-2 px-3 rounded md:max-w-[200px] font-semibold  focus:outline-none md:text-lg ">
                 Buy
               </button>
               <button
                 onClick={() => handleAddToCart(product?._id)}
-                className="bg-red-500 hover:bg-white hover:text-red-500 transition-all border-2 border-red-500 text-white w-full  max-w-[120px] min-w-[100px] md:min-w-[150px] py-2 px-3 rounded md:max-w-[200px] font-semibold  focus:outline-none md:text-lg "
+                className="bg-[#AE1C9A] hover:bg-white hover:text-[#AE1C9A] transition-all border-2 border-[#AE1C9A] text-white w-full  max-w-[120px] min-w-[100px] md:min-w-[150px] py-2 px-3 rounded md:max-w-[200px] font-semibold  focus:outline-none md:text-lg "
               >
                 Add To Cart
               </button>
@@ -233,11 +240,12 @@ const ProductDetail = () => {
           </div>
         )}
       </div>
-      <div className="my-10 ">
+      <div className="my-10 w-full ">
         {product.category && (
-          <RecommendedProduct
+          <VerticalCardProduct
             category={product?.category}
             heading={"Recommended Product"}
+            limit={4}
           />
         )}
       </div>

@@ -8,8 +8,8 @@ import { toast } from "react-toastify";
 import animatedUploader from "../assest/animatedUploader.gif";
 import staticUploader from "../assest/staticUploader.png";
 import { useDispatch, useSelector } from "react-redux";
-import { uploadProduct } from "../store/productSlice";
-export const UploadProduct = ({ onClose, productDialog }) => {
+import { setProductDialog, uploadProduct } from "../store/productSlice";
+export const UploadProduct = () => {
   const [data, setData] = useState({
     productName: "",
     brandName: "",
@@ -87,20 +87,18 @@ export const UploadProduct = ({ onClose, productDialog }) => {
 
     dispatch(uploadProduct(data));
     if (success) {
-      onClose();
+      dispatch(setProductDialog(false));
     }
   };
   return (
-    <div className="fixed w-full h-[100vh] flex items-center  justify-center top-0 left-0 right-0 bottom-0">
-      <div className="w-full max-w-[35%] h-[80%] bg-white p-4 flex">
+    <div className="fixed w-full h-[100vh] flex items-center justify-center top-0 left-0 right-0 bottom-0 bg-opacity-40 bg-slate-900 backdrop-filter backdrop-blur-lg">
+      <div className="w-full max-w-[35%] h-[80%] bg-white p-4 flex rounded-lg">
         <div className="bg-white w-full flex flex-col">
           <div className="flex w-full pl-4 mb-4">
             <h1 className="font-bold text-lg">Upload Product</h1>
             <div className="ml-auto">
               <button
-                onClick={() => {
-                  onClose();
-                }}
+                onClick={() => dispatch(setProductDialog(false))}
                 className="text-2xl border p-1 rounded-lg hover:scale-105 shadow"
               >
                 <IoMdClose />
@@ -237,16 +235,16 @@ export const UploadProduct = ({ onClose, productDialog }) => {
                 placeholder="Enter product description"
               ></textarea>
             </div>
-            <button className="bg-red-500 px-12 hover:scale-105 transition-all  duration-100 py-2 flex items-center rounded-lg justify-center text-white hover:bg-red-600 focus:outline-none">
-              Upload Product
+            <button className="bg-[#AE1C9A] px-12 hover:bg-transparent hover:text-[#AE1C9A] border transition-all  duration-100 py-2 flex items-center rounded-lg justify-center text-white hover:border-[#AE1C9A] focus:outline-none">
+              {loading ? "Upload Product..." : "Upload Product"}
             </button>
           </form>
-          {displayFullScreenImage && (
+          {/* {displayFullScreenImage && (
             <DisplayProduct
               image={fullScreenImage}
               onClose={() => setDisplayFullScreenImage(false)}
             />
-          )}
+          )} */}
         </div>
       </div>
     </div>

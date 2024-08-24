@@ -9,9 +9,9 @@ const SearchProduct = () => {
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const { search } = useLocation();
+  const [success, setSuccess] = useState(false);
 
-  // Define the debounced search function
-  const searchDataDebounced = debounce(async (query) => {
+  const searchData = async (query) => {
     setLoading(true);
     try {
       const response = await fetch(`${SummaryApi.searchProduct.url}${query}`, {
@@ -21,23 +21,18 @@ const SearchProduct = () => {
         },
       });
       const apiResponse = await response.json();
-      setProducts(apiResponse.product);
+      setProducts(apiResponse?.product || []);
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching search results:", error);
-    } finally {
-      setLoading(false);
     }
-  }, 300); // Adjust the debounce delay as needed (300ms in this example)
+  };
 
   useEffect(() => {
-    // Call the debounced search function when the search query changes
-    searchDataDebounced(search);
-    // Cleanup function to cancel any pending debounced search function calls
-    return () => searchDataDebounced.cancel();
+    searchData(search);
   }, [search]);
-
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto bg-[#F3E7F1]">
       {loading && (
         <div className="w-full flex justify-center h-[80vh] items-center">
           <p className="animate-pulse">Loading...</p>
@@ -45,7 +40,7 @@ const SearchProduct = () => {
       )}
       {!loading && products?.length === 0 && (
         <div className="w-full flex justify-center h-[80vh] items-center">
-          <p>No results found.</p>
+          <p className="text-xl md:text-3xl text-red-500">No results found.</p>
         </div>
       )}
       {!loading && products?.length > 0 && (

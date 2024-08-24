@@ -10,13 +10,13 @@ const Cart = () => {
   );
   console.log(totalQuantity);
   return (
-    <div className="w-full container py-4  px-2 md:px-12">
+    <div className="w-full container py-4 md:py-20 pb-20 px-2 md:px-12">
       {cartItems?.length === 0 ? (
         <div className="w-full flex items-center mt-20 justify-center">
           <div className="flex flex-col gap-5 justify-center items-center ">
             <Link
               to={"/"}
-              className="text-xs lg:text-sm font-semibold border-2 lg:col-span-2 border-red-500 w-fit lg:py-1 py-2 h-fit rounded whitespace-nowrap text-red-500 hover:bg-red-500 hover:text-white transition-all lg:px-2 px-2 flex items-center gap-2"
+              className="text-xs lg:text-sm font-semibold border-2 lg:col-span-2 border-[#AE1C9A] w-fit lg:py-1 py-2 h-fit rounded whitespace-nowrap text-[#AE1C9A] hover:bg-[#AE1C9A] hover:text-white transition-all lg:px-2 px-2 flex items-center gap-2"
             >
               <FaArrowRight />
               <span className="">Shopping</span>
@@ -30,7 +30,7 @@ const Cart = () => {
             <div className="flex w-full flex-col lg:grid lg:grid-cols-4 my-3 md:flex-row md:items-center ">
               <Link
                 to={"/"}
-                className="text-xs lg:text-sm font-semibold border-2 lg:col-span-2 border-red-500 w-fit lg:py-1 py-2 h-fit rounded whitespace-nowrap text-red-500 hover:bg-red-500 hover:text-white transition-all lg:px-2 px-2 flex items-center gap-2"
+                className="text-xs lg:text-sm font-semibold border-2 lg:col-span-2 border-[#AE1C9A] w-fit lg:py-1 py-2 h-fit rounded whitespace-nowrap text-[#AE1C9A] hover:bg-[#AE1C9A] hover:text-white transition-all lg:px-2 px-2 flex items-center gap-2"
               >
                 <FaArrowRight />
                 <span className="">Shopping</span>
@@ -55,7 +55,7 @@ const Cart = () => {
             </div>
           </div>
           <div className="col-span-2 lg:col-span-1 h-fit border shadow-lg rounded">
-            <div className="flex w-full bg-red-500 justify-center mb-10 ">
+            <div className="flex w-full bg-[#AE1C9A] justify-center mb-10 ">
               <span className="px-4 py-2 lg:py-5 rounded lg:text-xl  text-white">
                 ORDER SUMMARY
               </span>
@@ -76,7 +76,7 @@ const Cart = () => {
                   {displayCurrency(totalPrice)}
                 </span>
               </div>
-              <div className="border-red-500 py-2 flex justify-center border-2 bg-slate-100 hover:bg-red-500 rounded my-5  text-red-500 hover:text-white">
+              <div className="border-[#AE1C9A] py-2 flex justify-center border-2 bg-slate-100 hover:bg-[#AE1C9A] rounded my-5  text-[#AE1C9A] hover:text-white">
                 <button className="focus:outline-none font-semibold">
                   CHECKOUT NOW
                 </button>

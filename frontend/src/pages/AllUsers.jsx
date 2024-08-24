@@ -22,7 +22,7 @@ const AllUsers = () => {
   }, []);
   return (
     <div className="w-full border relative h-full min-h-[80vh]">
-      <table className="w-full userTable">
+      <table className="w-full userTable bg-white">
         <thead className="">
           <th>Sr.</th>
           <th>Name</th>

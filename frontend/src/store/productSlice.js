@@ -22,7 +22,7 @@ export const fetchProduct = createAsyncThunk(
 
 export const uploadProduct = createAsyncThunk(
   "uploadProduct",
-  async (data, rejectWithValue) => {
+  async (data, { rejectWithValue }) => {
     try {
       const response = await fetch(SummaryApi.uploadProduct.url, {
         method: SummaryApi.uploadProduct.method,
@@ -40,17 +40,40 @@ export const uploadProduct = createAsyncThunk(
   }
 );
 
+export const fetchCategories = createAsyncThunk(
+  "getCategories",
+  async (_, { rejectWithValue }) => {
+    try {
+      const response = await fetch(SummaryApi.categoryList.url);
+      const data = await response.json();
+      return data.categoryList;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 const productSlice = createSlice({
   name: "product",
   initialState: {
     products: [],
     loading: false,
     success: false,
+    error: null,
+    categoryList: [],
+    productDialog: false,
   },
-  reducers: {},
+  reducers: {
+    setCategoryList: (state, action) => {
+      state.categoryList = action.payload;
+    },
+    setProductDialog: (state, action) => {
+      state.productDialog = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchProduct.pending, (state, action) => {
+      .addCase(fetchProduct.pending, (state) => {
         state.loading = true;
       })
       .addCase(fetchProduct.fulfilled, (state, action) => {
@@ -63,7 +86,7 @@ const productSlice = createSlice({
         state.error = action.payload;
         state.success = false;
       })
-      .addCase(uploadProduct.pending, (state, action) => {
+      .addCase(uploadProduct.pending, (state) => {
         state.loading = true;
       })
       .addCase(uploadProduct.fulfilled, (state, action) => {
@@ -76,8 +99,18 @@ const productSlice = createSlice({
         state.loading = false;
         state.message = action.payload.message;
         state.success = false;
+      })
+      .addCase(fetchCategories.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(fetchCategories.fulfilled, (state, action) => {
+        state.loading = false;
+        state.categoryList = action.payload;
+      })
+      .addCase(fetchCategories.rejected, (state, action) => {
+        state.loading = false;
       });
   },
 });
-
+export const { setCategoryList, setProductDialog } = productSlice.actions;
 export default productSlice.reducer;

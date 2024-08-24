@@ -24,7 +24,7 @@ const CartCardProduct = ({ product }) => {
     <div className="border relative flex h-full min-h-[120px] max-h-[130px] shadow">
       <button
         onClick={() => handleDelete(product?._id)}
-        className="absolute top-0 right-0 p-1 transition-all border rounded-bl-xl hover:bg-red-500 text-red-500 hover:text-white"
+        className="absolute top-0 right-0 p-1 transition-all border rounded-bl-xl hover:bg-[#AE1C9A] text-[#AE1C9A] hover:text-white"
       >
         <RxCross2 className="text-lg md:text-2xl cursor-pointer" />
       </button>
@@ -54,14 +54,14 @@ const CartCardProduct = ({ product }) => {
             <div className="flex md:items-center ">
               <button
                 onClick={() => handleDecrement(product._id)}
-                className="border focus:outline-none border-red-500 p-1 rounded hover:bg-red-500 text-red-500 transition-all hover:text-white"
+                className="border focus:outline-none border-[#AE1C9A] p-1 rounded hover:bg-[#AE1C9A] text-[#AE1C9A] transition-all hover:text-white"
               >
                 <FaMinus className="" />
               </button>
               <span className="px-3">{product?.quantity}</span>
               <button
                 onClick={() => handleIncrement(product._id)}
-                className="border focus:outline-none border-red-500 p-1 rounded text-white  hover:bg-slate-200 bg-red-500 transition-all hover:text-red-500"
+                className="border focus:outline-none border-[#AE1C9A] p-1 rounded text-white  hover:bg-slate-200 bg-[#AE1C9A] transition-all hover:text-[#AE1C9A]"
               >
                 <FaPlus className="" />
               </button>

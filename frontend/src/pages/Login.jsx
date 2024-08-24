@@ -23,7 +23,11 @@ const Login = () => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
   useEffect(() => {
-    if (user) {
+    if (user?.role === "admin") {
+      navigate("/dashboard");
+    }
+    console.log(user?.role);
+    if (user?.role === "general") {
       navigate("/");
     }
   }, [user]);
@@ -83,7 +87,7 @@ const Login = () => {
           </div>
           <Link
             to="/forgot-password"
-            className="flex justify-end text-red-600 hover:text-red-700 cursor-pointer hover:underline"
+            className="flex justify-end text-[#AE1C9A] hover:text-[#AE1C9A] cursor-pointer hover:underline"
           >
             Forgot Password ?
           </Link>
@@ -96,7 +100,7 @@ const Login = () => {
           {
             <Link
               to="/sign-up"
-              className="text-red-500 hover:text-red-700 hover:underline"
+              className="text-[#AE1C9A] hover:text-[#AE1C9A] hover:underline"
             >
               Sign up
             </Link>

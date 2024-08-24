@@ -78,8 +78,8 @@ const productController = {
   },
   categoryProduct: async (req, res) => {
     try {
-      const { category } = req.body;
-      const product = await Product.find({ category });
+      const { category, limit } = req.body;
+      const product = await Product.find({ category }).limit(limit);
       res.status(201).json({
         message: "Product category",
         error: false,
@@ -135,6 +135,25 @@ const productController = {
       });
       res.status(200).json({
         message: "Product found",
+        error: false,
+        success: true,
+        product,
+      });
+    } catch (error) {
+      res.status(404).json({
+        message: error.message,
+        error: true,
+        success: false,
+      });
+    }
+  },
+  filterProduct: async (req, res) => {
+    console.log(req.body);
+    try {
+      const { category } = req.body;
+      const product = await Product.find({ category: { $in: category } });
+      res.status(201).json({
+        message: "Product category",
         error: false,
         success: true,
         product,

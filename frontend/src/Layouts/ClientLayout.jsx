@@ -5,13 +5,13 @@ import Footer from "../components/Footer";
 
 const ClientLayout = () => {
   return (
-    <>
+    <div className="pt-16">
       <Header />
       <main className="min-h-[calc(100vh-130px)]">
         <Outlet />
       </main>
       <Footer />
-    </>
+    </div>
   );
 };
 

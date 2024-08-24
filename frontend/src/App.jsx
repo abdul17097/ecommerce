@@ -28,18 +28,15 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/sign-up" element={<SignUp />} />
-          <Route
-            path="/category-product/:category"
-            element={<CategoryProduct />}
-          />
+          <Route path="/category-product" element={<CategoryProduct />} />
           <Route path="/product-detail/:id" element={<ProductDetail />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/search" element={<SearchProduct />} />
         </Route>
         {/* Admin side Routes */}
-        <Route path="/admin-panel" element={<AdminLayout />}>
-          <Route path="/admin-panel/users" element={<AllUsers />} />
-          <Route path="/admin-panel/products" element={<AllProducts />} />
+        <Route path="/dashboard" element={<AdminLayout />}>
+          <Route path="/dashboard/users" element={<AllUsers />} />
+          <Route path="/dashboard/products" element={<AllProducts />} />
         </Route>
       </Routes>
     </>

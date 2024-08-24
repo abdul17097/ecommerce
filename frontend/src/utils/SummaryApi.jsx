@@ -52,6 +52,10 @@ const SummaryApi = {
     url: `/api/search-product/`,
     method: "GET",
   },
+  filterCategoryProduct: {
+    url: `/api/filter-products`,
+    method: "POST",
+  },
 };
 
 export default SummaryApi;

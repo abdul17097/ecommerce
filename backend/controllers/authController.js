@@ -6,8 +6,7 @@ const authController = {
   // Register new user
   register: async (req, res) => {
     try {
-      const { name, email, password } = req.body;
-
+      const { name, email, password, profilePic } = req.body;
       if (!name || !email || !password) {
         throw new Error("Please provide name, email, and password");
       }
@@ -22,8 +21,9 @@ const authController = {
         name,
         email,
         password: hashPassword,
-        role: "GENERAL",
+        profilePic,
       });
+      console.log(newUser);
       res.status(201).json({
         data: newUser,
         message: "User created successfully",
@@ -45,6 +45,7 @@ const authController = {
       if (!email) throw new Error("Please enter email");
       if (!password) throw new Error("Please enter password");
       const checkUser = await User.findOne({ email });
+      console.log(checkUser);
       if (checkUser) {
         const comparePassword = await bcrypt.compare(
           password,

@@ -6,12 +6,29 @@ import VerticalCardProduct from "../components/VerticalCardProduct";
 
 export const Home = () => {
   return (
-    <div>
-      <CategoryList />
+    <div className="">
       <ProductBanner />
-      <HorizontalCardProduct category={"airpodes"} heading={"Top Airpodes"} />
-      <VerticalCardProduct category={"mobile"} heading={"Top Mobiles"} />
-      <HorizontalCardProduct category={"camera"} heading={"Popular Cameras"} />
+      <CategoryList />
+      <HorizontalCardProduct
+        category={"airpodes"}
+        heading={"Top Airpodes"}
+        limit={6}
+      />
+      <VerticalCardProduct
+        category={"airpodes"}
+        heading={"Top Airpodes"}
+        limit={4}
+      />
+      <HorizontalCardProduct
+        category={"camera"}
+        heading={"Popular Cameras"}
+        limit={6}
+      />
+      <VerticalCardProduct
+        category={"mobile"}
+        heading={"Top Mobile"}
+        limit={4}
+      />
     </div>
   );
 };

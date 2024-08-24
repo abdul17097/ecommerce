@@ -5,11 +5,11 @@ import { GrNext, GrPrevious } from "react-icons/gr";
 import { Link } from "react-router-dom";
 import { addToCart } from "../store/cartSlice";
 import { useDispatch } from "react-redux";
+import { MdOutlineStar } from "react-icons/md";
 const SearchProducts = ({ products, loading }) => {
   const loadingList = new Array(10).fill(null);
   const dispatch = useDispatch();
   const scrollElement = useRef();
-  console.log(loading);
   const handleAddToCard = (e, id) => {
     e.preventDefault();
     e.stopPropagation();
@@ -17,64 +17,71 @@ const SearchProducts = ({ products, loading }) => {
     dispatch(addToCart(selectedCartItem[0]));
   };
   return (
-    <div className="container relative mx-auto py-6 px-4 md:px-12">
+    <div className="container relative mx-auto py-6 pb-20">
       <h1 className="text-2xl font-semibold capitalize mb-5">
         Search Results : {products?.length}
       </h1>
-      <div
-        className="flex items-center lg:grid lg:grid-cols-3 flex-wrap  md:gap-5 gap-4   py-2 transition-all  scrollbar-none "
-        ref={scrollElement}
-      >
+      <div className="grid gap-8 grid-cols-1 md:grid-cols-3 lg:grid-cols-4">
         {loading &&
           loadingList?.map((_, index) => (
             <div
-              key={index}
-              className="w-full  shadow flex flex-col min-w-[270px] md:min-w-[340px] rounded  gap-3  border "
+              className="bg-[#FFFFFF] rounded-2xl overflow-hidden  w-full min-h-[410px] max-h-[410px] 
+            md:min-w-[200px] md:max-w-[350px]"
             >
-              <div className=" rounded-md bg-slate-200 w-full animate-pulse p-3 h-[220px]"></div>
-              <div className="p-3 md:p-4  flex flex-col gap-3">
-                <h2 className="py-3 animate-pulse md:py-4 rounded-md bg-slate-200"></h2>
-                <p className="py-3 animate-pulse md:py-4 rounded-md bg-slate-200"></p>
-                <div className="flex gap-3 md:gap-4  w-full ">
-                  <p className="w-full font-medium py-3 animate-pulse md:py-4 rounded-md bg-slate-200"></p>
-                  <p className="w-full py-3 animate-pulse md:py-4 rounded-md bg-slate-200"></p>
+              <div className="h-full min-h-[280px] rounded-t-2xl max-h-[280px] px-1 py-5 bg-slate-200 animate-pulses"></div>
+              <div className="px-5 pt-1 relative  h-[calc(410px-280px)] ">
+                <div className="flex py-3 px-16 rounded animate-pulse w-fit bg-slate-200"></div>
+                <h2 className="py-3 px-28 rounded animate-pulse w-fit bg-slate-200 my-1 "></h2>
+                <div className="text-lg flex gap-2">
+                  <span className="py-3 px-10 rounded animate-pulse w-fit bg-slate-200"></span>
+                  <span className="py-3 px-10 rounded animate-pulse w-fit bg-slate-200"></span>
                 </div>
-                <button className="mt-3 md:mt-3 py-3 animate-pulse md:py-4 rounded-md bg-slate-200  px-4 text-sm md:text-lg  md:px-4 text-white rounded-ful transition-all"></button>
+                <div className="flex justify-end items-end absolute bottom-0 right-0">
+                  <button className="rounded-br-2xl rounded-tl-[1.9rem] font-bold bg-slate-200 hover:bg-[#AE1C9A] px-20 py-5 animate-pulse"></button>
+                </div>
               </div>
             </div>
           ))}
-        {products?.map((item, index) => (
+        {products?.map((product, index) => (
           <Link
-            to={`/product-detail/${item._id}`}
-            key={index}
-            className="w-full max-w-[270px]  shadow flex flex-col min-w-[270px] md:min-w-[340px] rounded  gap-3  border "
+            to={`/product-detail/${product._id}`}
+            className="bg-[#FFFFFF] rounded-2xl overflow-hidden w-full min-h-[410px] max-h-[410px] 
+            md:min-w-[200px] md:max-w-[350px]"
           >
-            <div className=" bg-slate-200 w-full  p-3 h-[220px]">
+            <div className="h-full min-h-[280px] rounded-t-2xl max-h-[280px] px-1 py-5 bg-white ">
               <img
-                src={item.productImages[0]}
+                src={product.productImages[0]}
                 alt=""
-                className="w-full h-full hover:scale-105 transition-all object-scale-down mix-blend-multiply"
+                className="mix-blend-multiply  object-scale-down w-full hover:scale-105 transition-all delay-75 ease-in h-full"
               />
             </div>
-            <div className="p-3 md:p-4  flex flex-col gap-1">
-              <h2 className=" font-semibold capitalize md:text-xl text-ellipsis line-clamp-1">
-                {item.productName}
-              </h2>
-              <p className="capitalize md:text-lg">{item.category}</p>
-              <div className="flex gap-3 md:gap-4  w-full ">
-                <p className="text-red-500 text-sm md:text-lg font-medium">
-                  {displayCurrency(item.sellingPrice)}
-                </p>
-                <p className="line-through text-sm md:text-lg">
-                  {displayCurrency(item.price)}
-                </p>
+            <div className="px-5 pt-1 relative  h-[calc(410px-280px)] ">
+              <div className="flex py-1">
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
+                <MdOutlineStar className="text text-[#FFA800]" />
               </div>
-              <button
-                onClick={(e) => handleAddToCard(e, item._id)}
-                className="bg-red-500 mt-3 md:mt-3   py-2 px-4 text-sm md:text-lg  md:py-2 md:px-4 text-white rounded-full hover:bg-red-600 transition-all"
-              >
-                Add to Cart
-              </button>
+              <h2 className="font-semibold capitalize text-lg text-ellipsis line-clamp-1 ">
+                {product?.productName}
+              </h2>
+              <div className="text-lg flex gap-2">
+                <span className="line-through text-slate-400">
+                  {displayCurrency(product.price)}
+                </span>
+                <span className="">
+                  {displayCurrency(product.sellingPrice)}
+                </span>
+              </div>
+              <div className="flex justify-end items-end absolute bottom-0 right-0">
+                <button
+                  onClick={(e) => handleAddToCard(e, product._id)}
+                  className="rounded-br-2xl rounded-tl-[1.9rem] px-6 py-2 font-bold bg-[#F0D4EC] hover:bg-[#AE1C9A] text-[#AE1C9A] transition-all hover:text-white  delay-150 ease-in"
+                >
+                  Add To Car
+                </button>
+              </div>
             </div>
           </Link>
         ))}

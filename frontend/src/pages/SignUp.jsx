@@ -6,16 +6,17 @@ import Button from "../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import SummaryApi from "../utils/SummaryApi";
 import { toast } from "react-toastify";
+import uploadImage from "../utils/uploadImage";
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [image, setImage] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     confirmPassword: "",
-    ProfilePic: "",
+    profilePic: "",
   });
   const navigate = useNavigate();
   const picRef = useRef();
@@ -23,10 +24,17 @@ const SignUp = () => {
     const { name, value } = e.target;
     setData({ ...data, [name]: value });
   };
+  const handleImageUpload = async (e) => {
+    console.log(e.target.files[0]);
+    setUploadLoading(true);
+    const image = await uploadImage(e.target.files[0]);
+    setData({ ...data, profilePic: image });
+    setUploadLoading(false);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const { name, email, password, confirmPassword } = data;
-    if (!name || !email || !password || !confirmPassword) {
+    const { name, email, password, confirmPassword, profilePic } = data;
+    if (!name || !email || !password || !confirmPassword || !profilePic) {
       toast.error("Please fill all the fields");
       return;
     }
@@ -58,8 +66,13 @@ const SignUp = () => {
       >
         <div className="m-auto ">
           <div className="relative w-20 h-20">
+            {uploadLoading && (
+              <div className="absolute w-full h-full flex justify-center font-semibold rounded-full items-center top-0 left-0 text-xs">
+                Upload ...
+              </div>
+            )}
             <img
-              src={image ? image : signin}
+              src={data.profilePic ? data.profilePic : signin}
               alt=""
               onClick={() => picRef.current.click()}
               className="rounded-full w-full h-full shadow cursor-pointer object-fill z-[999]"
@@ -69,10 +82,7 @@ const SignUp = () => {
               accept="image/*"
               hidden
               ref={picRef}
-              onChange={(e) => {
-                setData({ ...data, ProfilePic: e.target.files[0] });
-                setImage(URL.createObjectURL(e.target.files[0]));
-              }}
+              onChange={handleImageUpload}
             />
           </div>
         </div>
