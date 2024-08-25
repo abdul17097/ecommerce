@@ -11,7 +11,7 @@ connectdb();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: "https://shop-us-quickly.netlify.app/",
     methods: ["GET", "POST"],
     credentials: true,
   }));

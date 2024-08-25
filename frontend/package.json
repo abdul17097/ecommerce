@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "https://shopus-backend-k8eot94jo-abdul17097s-projects.vercel.app/",
+  "proxy": "https://shopus-backend.vercel.app/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
