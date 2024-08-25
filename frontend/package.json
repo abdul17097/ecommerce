@@ -1,6 +1,5 @@
 {
   "name": "ecommerance",
-  "private": true,
   "version": "0.0.0",
   "type": "module",
   "proxy": "https://shopus-backend.vercel.app/",
