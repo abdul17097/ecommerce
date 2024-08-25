@@ -10,7 +10,11 @@ const productRoutes = require("./routes/productRoutes");
 connectdb();
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  }));
 
 app.use("/api", authRoutes, userRoutes, productRoutes);
 
