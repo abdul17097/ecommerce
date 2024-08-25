@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "proxy": "https://shopus-backend-k8eot94jo-abdul17097s-projects.vercel.app/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -10,6 +11,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.3",
+    "caniuse-lite": "^1.0.30001653",
     "framer-motion": "^10.18.0",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
